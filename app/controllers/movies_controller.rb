@@ -11,6 +11,7 @@ class MoviesController < ApplicationController
   end
 
   def index
+    @all_ratings=Movie.maturity
     if params[:sort_titles]=="true"
       @movies = Movie.all.order(:title)
       @hilite = 'title'
@@ -19,6 +20,12 @@ class MoviesController < ApplicationController
       @hilite = 'release_date'
     else
       @movies = Movie.all
+    end
+    
+    #part 2
+    if not params[:ratings]==nil
+      @check_ratings = params[:ratings].keys
+      @movies=@movies.where({rating: @check_ratings})
     end
   end
 
